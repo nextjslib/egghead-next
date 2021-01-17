@@ -1,6 +1,7 @@
 import {LessonResource} from 'types'
 import {GraphQLClient} from 'graphql-request'
 import config from './config'
+import getAccessTokenFromCookie from '../utils/get-access-token-from-cookie'
 
 const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
 
@@ -40,6 +41,7 @@ export async function loadLesson(slug: string, token?: string) {
         http_url
         media_url
         lesson_view_url
+        thumb_url
         path
         icon_url
         download_url
@@ -56,6 +58,8 @@ export async function loadLesson(slug: string, token?: string) {
               path
               title
               completed
+              duration
+              thumb_url
             }
           }
           ... on Course {
@@ -70,6 +74,8 @@ export async function loadLesson(slug: string, token?: string) {
               path
               title
               completed
+              duration
+              thumb_url
             }
           }
         }
@@ -112,6 +118,8 @@ export async function loadLesson(slug: string, token?: string) {
     }
   `
 
+  token = token || getAccessTokenFromCookie()
+
   const authorizationHeader = token && {
     authorization: `Bearer ${token}`,
   }
@@ -138,6 +146,7 @@ export async function loadBasicLesson(slug: string) {
         description
         free_forever
         media_url
+        thumb_url
         path
         icon_url
         collection {
@@ -154,6 +163,7 @@ export async function loadBasicLesson(slug: string) {
               title
               completed
               media_url
+              duration
             }
           }
           ... on Course {
@@ -169,6 +179,7 @@ export async function loadBasicLesson(slug: string) {
               title
               completed
               media_url
+              duration
             }
           }
         }

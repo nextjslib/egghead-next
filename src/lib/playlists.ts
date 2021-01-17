@@ -3,6 +3,29 @@ import config from './config'
 
 const graphQLClient = new GraphQLClient(config.graphQLEndpoint)
 
+export async function loadAllPlaylists() {
+  const query = /* GraphQL */ `
+    query getPlaylists {
+      all_playlists {
+        slug
+        title
+        average_rating_out_of_5
+        watched_count
+        path
+        image_thumb_url
+        instructor {
+          id
+          full_name
+          path
+        }
+      }
+    }
+  `
+  const {all_playlists} = await graphQLClient.request(query)
+
+  return all_playlists
+}
+
 export async function loadPlaylist(slug: string, token?: string) {
   const query = /* GraphQL */ `
     query getPlaylist($slug: String!) {
@@ -33,6 +56,7 @@ export async function loadPlaylist(slug: string, token?: string) {
             path
             square_cover_url
             type
+            duration
           }
           ... on Playlist {
             slug
@@ -42,11 +66,14 @@ export async function loadPlaylist(slug: string, token?: string) {
             square_cover_url
             type
             url
+            duration
             lessons {
               title
               path
               slug
               icon_url
+              duration
+              thumb_url
             }
           }
           ... on Lesson {
@@ -57,6 +84,8 @@ export async function loadPlaylist(slug: string, token?: string) {
             http_url
             icon_url
             type
+            duration
+            thumb_url
           }
           ... on File {
             slug
@@ -125,19 +154,4 @@ export async function loadPlaylist(slug: string, token?: string) {
   const {playlist} = await graphQLClient.request(query, variables)
 
   return playlist
-}
-
-export async function loadAllPlaylists() {
-  const query = /* GraphQL */ `
-    query getPlaylists {
-      all_playlists {
-        title
-        slug
-        description
-      }
-    }
-  `
-  const {all_playlists} = await graphQLClient.request(query)
-
-  return all_playlists
 }
