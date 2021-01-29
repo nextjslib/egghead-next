@@ -6,6 +6,7 @@ export async function loadCourse(slug: string) {
   const query = /* GraphQL */ `
     query getCourse($slug: String!) {
       course(slug: $slug) {
+        id
         slug
         title
         description

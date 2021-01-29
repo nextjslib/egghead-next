@@ -7,6 +7,7 @@ export async function loadAllPlaylists() {
   const query = /* GraphQL */ `
     query getPlaylists {
       all_playlists {
+        id
         slug
         title
         average_rating_out_of_5
