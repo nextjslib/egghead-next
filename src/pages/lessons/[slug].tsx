@@ -373,9 +373,14 @@ const Lesson: FunctionComponent<LessonProps> = ({initialLesson}) => {
     run()
   }, [initialLesson.slug])
 
-  React.useEffect(() => {
+  // React.useEffect(() => {
+  //   setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
+  //   console.log('React.useEffect')
+  // }, [height])
+  React.useLayoutEffect(() => {
     setLessonMaxWidth(Math.round((height - HEIGHT_OFFSET) * 1.77))
-  }, [height])
+    console.log('React.useLayoutEffect')
+  })
 
   return (
     <>
