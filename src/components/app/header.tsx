@@ -228,7 +228,7 @@ const DarkModeToggle = () => {
       .matches
 
     setTheme(prefersDark ? 'dark' : 'light')
-  })
+  }, [])
 
   return (
     <button
